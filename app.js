@@ -7,6 +7,7 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose").set("debug", true);
 
 const productRouter = require('./routes/productRoute');
+const categoryRouter = require('./routes/categoryRouter');
 
 
 // console.log("base url",process.env.MONGO_URI);
@@ -48,7 +49,10 @@ app.get('/', (req, res) => {
     res.send("jamil Hossain");
 });
 
+
+app.use(express.json());
 app.use('/api', productRouter);
+app.use('/api', categoryRouter);
 
 const PORT = process.env.PORT;
 app.listen(PORT, () => {
