@@ -28,14 +28,43 @@ router.get('/categories', async (req, res) => {
 });
 
 
-router.get('/ctegories/:id',async (req,res)=>{
+router.get('/categories/:id',async(req,res)=>{
   try{
      const categoriesid=await Cat.findById(req.params.id);
-     res.status(200).json(categoriesid);
+     res.json(categoriesid);
   }catch(err){
-    res.status(400).json(categoriesid);
+    res.status(400).json({message:err.message});
   }
+});
+
+
+
+router.delete('/categories/delect/:id',async(req,res)=>{
+  const {id}=req.params;
+  const catDelete=await Cat.findById(id);
+  if(!catDelete){
+    return res.status(404).json({ message: "Categories not found" });
+  }
+  await Cat.findByIdAndDelete(id);
+  res.status(200).json({message: "Categories deleted successfully"})
+
 })
 
+
+
+
+
+
+// router.get('/categories/:id', async (req, res) => {
+//   try {
+//     const category = await Category.findById(req.params.id);
+//     if (category == null) {
+//       return res.status(404).json({ message: 'Category not found' });
+//     }
+//     res.json(category);
+//   } catch (err) {
+//     res.status(500).json({ message: err.message });
+//   }
+// });
 
 module.exports = router;
