@@ -2,18 +2,6 @@ const express = require("express");
 const router = express();
 const Cat = require("../models/Category");
 
-// router.post("/Category-insart", async (req, res) => {
-//   try {
-//     const Category = await Cat.create(req.body);
-//     res.status(200).json(Category);
-//   } catch (error) {
-//     console.log(error.message);
-//     res.status(500).json({
-//       message: error.message,
-//     });
-//   }
-// });
-
 router.post("/Category-insart", async (req, res) => {
   const category = new Cat({
     name: req.body.name,
@@ -27,6 +15,27 @@ router.post("/Category-insart", async (req, res) => {
     res.status(400).json({ message: err.message });
   }
 });
+
+
+
+router.get('/categories', async (req, res) => {
+  try {
+    const categories = await Cat.find();
+    res.json(categories);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+
+router.get('/ctegories/:id',async (req,res)=>{
+  try{
+     const categoriesid=await Cat.findById(req.params.id);
+     res.status(200).json(categoriesid);
+  }catch(err){
+    res.status(400).json(categoriesid);
+  }
+})
 
 
 module.exports = router;
